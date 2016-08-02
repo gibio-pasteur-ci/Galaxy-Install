@@ -4,6 +4,7 @@
   remote_user: root
 
   roles:
+    - {role: cotedivoire, tags: ['ci']}
     - {role: system_dependancies, tags: ['system']}
     - {role: postgresql, tags: ['postgresql']}
     - {role: apache, tags: ['apache']}
