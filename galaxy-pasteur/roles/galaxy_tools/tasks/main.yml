@@ -1,5 +1,4 @@
 ---
-
 - name: copy the script to build the tool list
   become: yes
   become_user: galaxypa
