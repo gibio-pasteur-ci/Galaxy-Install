@@ -1,10 +1,9 @@
 ---
 - name: Install Galaxy Pasteur
-  hosts: ifb
+  hosts: localhost
   remote_user: root
 
   roles:
-    - {role: ifb, tags: ['ifb']}
     - {role: system_dependancies, tags: ['system']}
     - {role: postgresql, tags: ['postgresql']}
     - {role: apache, tags: ['apache']}

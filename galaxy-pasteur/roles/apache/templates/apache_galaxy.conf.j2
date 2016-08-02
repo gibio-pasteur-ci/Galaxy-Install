@@ -2,11 +2,11 @@
 <VirtualHost {{ ansible_fqdn }}>
     ServerName {{ ansible_fqdn }}
     RewriteEngine on
-    RewriteRule ^/static/style/(.*) /home/galaxypa/galaxy/static/june_2007_style/blue/$1 [L]
-    RewriteRule ^/static/scripts/(.*) /home/galaxypa/galaxy/static/scripts/packed/$1 [L]
-    RewriteRule ^/static/(.*) /home/galaxypa/galaxy/static/$1 [L]
-    RewriteRule ^/favicon.ico /home/galaxypa/galaxy/static/favicon.ico [L]
-    RewriteRule ^/robots.txt /home/galaxypa/galaxy/static/robots.txt [L]
+    RewriteRule ^/static/style/(.*) /data/galaxypa/galaxy/static/june_2007_style/blue/$1 [L]
+    RewriteRule ^/static/scripts/(.*) /data/galaxypa/galaxy/static/scripts/packed/$1 [L]
+    RewriteRule ^/static/(.*) /data/galaxypa/galaxy/static/$1 [L]
+    RewriteRule ^/favicon.ico /data/galaxypa/galaxy/static/favicon.ico [L]
+    RewriteRule ^/robots.txt /data/galaxypa/galaxy/static/robots.txt [L]
     RewriteRule ^(.*) http://localhost:18084$1 [P]
     <Proxy http://localhost:18084>
         Order deny,allow

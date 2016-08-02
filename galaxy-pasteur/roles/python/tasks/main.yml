@@ -19,7 +19,7 @@
 - name: Python configure
   become: yes
   become_user: galaxypa
-  command: ./configure --prefix=/home/galaxypa/galaxy-python chdir=~/src/Python-2.7.11 creates=Makefile
+  command: ./configure --prefix=/data/galaxypa/galaxy-python chdir=~/src/Python-2.7.11 creates=Makefile
 
 - name: Python make
   become: yes

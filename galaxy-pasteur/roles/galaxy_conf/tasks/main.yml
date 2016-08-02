@@ -9,8 +9,8 @@
   become_user: galaxypa
   #command: rsync -r ~/galaxy_conf/ ~/galaxy
   synchronize:
-    src: /home/galaxypa/galaxy_conf/
-    dest: /home/galaxypa/galaxy
+    src: /data/galaxypa/galaxy_conf/
+    dest: /data/galaxypa/galaxy
   delegate_to: "{{ inventory_hostname }}"
 
 - name: fetch eggs
@@ -46,7 +46,7 @@
   become_user: galaxypa
   patch: >
     src=~/galaxy/patch_master_key
-    dest=/home/galaxypa/galaxy/config/galaxy.ini
+    dest=/data/galaxypa/galaxy/config/galaxy.ini
     remote_src=True
 
 - name: apply ssl patch to common_util
@@ -54,7 +54,7 @@
   become_user: galaxypa
   patch: >
     src=~/galaxy/patch_ssl
-    dest=/home/galaxypa/galaxy/lib/tool_shed/util/common_util.py
+    dest=/data/galaxypa/galaxy/lib/tool_shed/util/common_util.py
     remote_src=True
 
 - name: apply ssl2 patch to hg_util
@@ -62,7 +62,7 @@
   become_user: galaxypa
   patch: >
     src=~/galaxy/patch_ssl_2
-    dest=/home/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
+    dest=/data/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
     remote_src=True
   notify:
     - restart galaxy
