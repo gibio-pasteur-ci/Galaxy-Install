@@ -3,9 +3,6 @@
   # Run the equivalent of "yum update" as a separate step
   yum: name=* state=latest
 
-- name: downgrade sqlite
-  command: yum downgrade sqlite -y
-
 - name: open port 80
   shell: iptables -I INPUT -p tcp -m tcp --dport 80 -j ACCEPT && service iptables save
   notify:

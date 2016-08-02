@@ -17,7 +17,7 @@
 - name: Create db user
   become: yes
   become_user: postgres
-  postgresql_user: name={{ user_postgres }}
+  postgresql_user: name={{ user_postgres }} password= {{ user_postgres }}
 
 - name: Create db
   become: yes
