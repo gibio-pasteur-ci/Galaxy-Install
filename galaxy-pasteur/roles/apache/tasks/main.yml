@@ -3,6 +3,13 @@
   notify:
     - restart httpd
 
+- name: Ensure that apache work with NameVirtualhost
+  lineinfile:
+    dest=/etc/httpd/conf/httpd.conf
+    regexp='^#?NameVirtualHost'
+    line='NameVirtualHost *:80'
+    state=present
+
 - name: Ensure apache is running and enabled
   service: name=httpd state=running enabled=yes
 
