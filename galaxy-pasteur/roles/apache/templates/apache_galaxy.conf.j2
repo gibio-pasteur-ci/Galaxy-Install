@@ -1,6 +1,6 @@
 #{{ ansible_managed }}
-<VirtualHost {{ ansible_fqdn }}>
-    ServerName {{ ansible_fqdn }}
+<VirtualHost *:80>
+    ServerName {{ galaxy_servername }}
     RewriteEngine on
     RewriteRule ^/static/style/(.*) /data/galaxypa/galaxy/static/june_2007_style/blue/$1 [L]
     RewriteRule ^/static/scripts/(.*) /data/galaxypa/galaxy/static/scripts/packed/$1 [L]

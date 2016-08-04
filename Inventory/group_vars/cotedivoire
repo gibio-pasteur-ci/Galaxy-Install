@@ -6,3 +6,4 @@ url_galaxy_target: http://localhost:18084/
 url_toolshed: https://galaxy.web.pasteur.fr/toolshed-pasteur/
 ref_apikey: 818e0754bb9877416a9072882d23dfc4 
 target_apikey: 0a222ed868996c56bf840e5f0a227gaa
+galaxy_servername: galaxy-ci.web.pasteur.fr
