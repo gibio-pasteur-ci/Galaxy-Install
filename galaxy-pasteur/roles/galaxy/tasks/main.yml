@@ -24,5 +24,8 @@
   become_user: postgres
   postgresql_db: name={{ user_postgres }} owner={{ user_postgres }}
 
-- name: init scripts copy
+- name: galaxy init scripts copy
   template: src=galaxy dest=/etc/init.d/ mode=0744
+
+- name: galaxy-reporting init scripts copy
+  template: src=galaxy-reporting dest=/etc/init.d/ mode=0744
