@@ -1,16 +1,47 @@
 ---
-- name: copy master key patch file
+#- name: copy master key patch file
+#  become: yes
+#  become_user: galaxypa
+#  copy: src=./files/revert_master_key dest=~/galaxy/revert_master_key
+
+- name: apply ssl patch to common_util
   become: yes
   become_user: galaxypa
-  copy: src=./files/revert_master_key dest=~/galaxy/revert_master_key
+  blockinfile:
+    dest: /data/galaxypa/galaxy/lib/tool_shed/util/common_util.py
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertbefore: "REPOSITORY_OWNER = 'devteam'"
+    content: |
+        #HACK SSL NON SIGNE
+        try:
+            _create_unverified_https_context = ssl._create_unverified_context
+            except AttributeError:
+            # Legacy Python that doesn't verify HTTPS certificates by default
+            pass
+        else:
+            # Handle target environment that doesn't support HTTPS verification
+            ssl._create_default_https_context = _create_unverified_https_context
+    state: absent
+
+- name: apply ssl2 patch to hg_util
+  become: yes
+  become_user: galaxypa
+  blockinfile:
+    dest: /data/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "_ui.setconfig"
+    content: |
+        #HACK SSL NON SIGNE
+            _ui.setconfig('web', 'cacerts', '', '--insecure')
+    state: absent
 
 - name: revert master key patch
   become: yes
   become_user: galaxypa
-  patch:  >
-    src=~/galaxy/revert_master_key
+  replace:
     dest=~/galaxy/config/galaxy.ini
-    remote_src=True
+    regexp='master_api_key = 0a222ed868996c56bf840e5f0a227gaa'
+    replace='#master_api_key = changethis'
   notify:
     - restart galaxy
 

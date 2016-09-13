@@ -22,50 +22,86 @@
 - name: init_db galaxy
   become: yes
   become_user: galaxypa
-  shell: source .venv/bin/activate & sh manage_db.sh version_control && sh manage_db.sh upgrade chdir=~/galaxy
+  shell: source .venv/bin/activate && sh manage_db.sh version_control && sh manage_db.sh upgrade chdir=~/galaxy
+  ignore_errors: yes
   notify:
     - restart galaxy
 
-- name: copy master key patch file
-  become: yes
-  become_user: galaxypa
-  copy: src=./files/patch_master_key dest=~/galaxy/patch_master_key
+#- name: copy master key patch file
+#  become: yes
+#  become_user: galaxypa
+#  copy: src=./files/patch_master_key dest=~/galaxy/patch_master_key
 
-- name: copy ssl1 patch file
-  become: yes
-  become_user: galaxypa
-  copy: src=./files/patch_ssl dest=~/galaxy/patch_ssl
+#- name: copy ssl1 patch file
+#  become: yes
+#  become_user: galaxypa
+#  copy: src=./files/patch_ssl dest=~/galaxy/patch_ssl
 
-- name: copy ssl2 patch file
-  become: yes
-  become_user: galaxypa
-  copy: src=./files/patch_ssl_2 dest=~/galaxy/patch_ssl_2
+#- name: copy ssl2 patch file
+#  become: yes
+#  become_user: galaxypa
+#  copy: src=./files/patch_ssl_2 dest=~/galaxy/patch_ssl_2
 
 - name: apply master key patch
   become: yes
   become_user: galaxypa
-  patch: >
-    src=~/galaxy/patch_master_key
+  replace:
     dest=/data/galaxypa/galaxy/config/galaxy.ini
-    remote_src=True
+    regexp='#master_api_key = changethis'
+    replace='master_api_key = 0a222ed868996c56bf840e5f0a227gaa'
+
 
 - name: apply ssl patch to common_util
   become: yes
   become_user: galaxypa
-  patch: >
-    src=~/galaxy/patch_ssl
-    dest=/data/galaxypa/galaxy/lib/tool_shed/util/common_util.py
-    remote_src=True
+  blockinfile:
+    dest: /data/galaxypa/galaxy/lib/tool_shed/util/common_util.py
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertbefore: "REPOSITORY_OWNER = 'devteam'"
+    content: |
+        #HACK SSL NON SIGNE
+        import ssl
+        try:
+            _create_unverified_https_context = ssl._create_unverified_context
+        except AttributeError:
+            # Legacy Python that doesn't verify HTTPS certificates by default
+            pass
+        else:
+            # Handle target environment that doesn't support HTTPS verification
+            ssl._create_default_https_context = _create_unverified_https_context
+    state: present
+
 
 - name: apply ssl2 patch to hg_util
   become: yes
   become_user: galaxypa
-  patch: >
-    src=~/galaxy/patch_ssl_2
-    dest=/data/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
-    remote_src=True
+  blockinfile:
+    dest: /data/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "_ui.setconfig"
+    content: |
+        #HACK SSL NON SIGNE
+            _ui.setconfig('web', 'cacerts', '', '--insecure')
+    state: present
   notify:
     - restart galaxy
+
+
+#- name: apply ssl patch to common_util
+#  become: yes
+#  become_user: galaxypa
+#  patch: >
+#    src=~/galaxy/patch_ssl
+#    dest=/data/galaxypa/galaxy/lib/tool_shed/util/common_util.py
+#    remote_src=True
+
+#- name: apply ssl2 patch to hg_util
+#  become: yes
+#  become_user: galaxypa
+#  patch: >
+#    src=~/galaxy/patch_ssl_2
+#    dest=/data/galaxypa/galaxy/lib/tool_shed/util/hg_util.py
+#    remote_src=True
 
 
 - name: Ensure galaxy is running and enabled

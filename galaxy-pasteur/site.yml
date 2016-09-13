@@ -1,16 +1,16 @@
 ---
 - name: Install Galaxy Pasteur
-  hosts: localhost
+  hosts: ifb
   remote_user: root
 
   roles:
-    - {role: cotedivoire, tags: ['ci']}
+    - {role: ifb, tags: ['ci']}
     - {role: system_dependancies, tags: ['system']}
     - {role: postgresql, tags: ['postgresql']}
     - {role: apache, tags: ['apache']}
     - {role: galaxy, tags: ['galaxy']}
     - {role: python, tags: ['python']}
     - {role: python_dependancies, tags: ['python']}
-    - {role: galaxy_conf, tags: ['galaxy']}
+    - {role: galaxy_conf, tags: ['galaxy_conf']}
     - {role: galaxy_tools, tags: ['galaxy_tools']}
-    - {role: cleanup, tags: ['galaxy']}
+    - {role: cleanup, tags: ['clean']}

@@ -1,4 +1,7 @@
 ---
+- name: Creation of data directory if doesn't exist
+  file: path=/data state=directory
+
 - name: Creation of "galaxypa" user
   user: name=galaxypa comment="Application user" shell=/bin/bash home=/data/galaxypa state=present
 

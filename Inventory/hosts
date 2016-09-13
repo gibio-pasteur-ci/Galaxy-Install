@@ -1,5 +1,2 @@
-[cotedivoire]
-localhost
-
-[targets]
-localhost	ansible_connection=local
+[ifb]
+192.54.201.108
