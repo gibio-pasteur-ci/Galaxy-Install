@@ -7,6 +7,7 @@
     RewriteRule ^/static/(.*) /data/galaxypa/galaxy/static/$1 [L]
     RewriteRule ^/favicon.ico /data/galaxypa/galaxy/static/favicon.ico [L]
     RewriteRule ^/robots.txt /data/galaxypa/galaxy/static/robots.txt [L]
+    RewriteRule ^/reporting-pasteur/(.*) http://localhost:9001/$1 [P]
     RewriteRule ^(.*) http://localhost:18084$1 [P]
     <Proxy http://localhost:18084>
         Order deny,allow
@@ -14,4 +15,11 @@
         XSendFile On
         XSendFilePath /
     </Proxy>
+    <Proxy http://localhost:9001>
+        Order deny,allow
+        Deny from all
+        allow from all
+    </Proxy>
+
+
 </VirtualHost>

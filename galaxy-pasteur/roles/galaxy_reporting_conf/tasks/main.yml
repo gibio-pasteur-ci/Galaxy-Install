@@ -1,0 +1,3 @@
+---
+- name: Ensure galaxy-reporting is running and enabled
+  service: name=galaxy-reporting state=running enabled=yes

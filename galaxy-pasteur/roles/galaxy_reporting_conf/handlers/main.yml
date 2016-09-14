@@ -1,0 +1,3 @@
+---
+- name: restart galaxy-reporting
+  service: name=galaxy-reporting state=restarted
