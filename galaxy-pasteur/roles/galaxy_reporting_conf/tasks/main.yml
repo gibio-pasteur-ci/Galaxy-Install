@@ -1,3 +1,8 @@
 ---
+- name: Create database/files directory if doesn't exist
+  become: yes
+  become_user: galaxypa
+  file: path=~/galaxy/database/files state=directory mode=0755
+
 - name: Ensure galaxy-reporting is running and enabled
   service: name=galaxy-reporting state=running enabled=yes
