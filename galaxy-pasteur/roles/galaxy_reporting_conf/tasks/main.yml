@@ -3,6 +3,8 @@
   become: yes
   become_user: galaxypa
   file: path=~/galaxy/database/files state=directory mode=0755
+  notify:
+    - restart galaxy-reporting
 
 - name: Ensure galaxy-reporting is running and enabled
   service: name=galaxy-reporting state=running enabled=yes

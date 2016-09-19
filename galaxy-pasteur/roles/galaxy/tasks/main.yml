@@ -28,7 +28,7 @@
   postgresql_db: name={{ user_postgres }} owner={{ user_postgres }}
 
 - name: galaxy init scripts copy
-  template: src=galaxy dest=/etc/init.d/ mode=0744
+  template: src=galaxy dest=/etc/init.d/ mode=0755
 
 - name: galaxy-reporting init scripts copy
-  template: src=galaxy-reporting dest=/etc/init.d/ mode=0744
+  template: src=galaxy-reporting dest=/etc/init.d/ mode=0755
