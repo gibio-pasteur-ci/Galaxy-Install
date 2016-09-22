@@ -1,0 +1,10 @@
+api_key: 0d888ed868996c56bf730e4f9a116fdd
+galaxy_instance: https://127.0.0.1:8080
+tools:
+- name: phylogeny_tools
+  owner: dcorreia
+  revisions: [886d136b8e1a]
+  tool_panel_section_id: Phylogeny
+  tool_panel_section_label: 'Phylogeny one clic'
+  tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
+  verify_ssl: false

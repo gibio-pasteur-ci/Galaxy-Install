@@ -13,5 +13,6 @@
     - {role: python_dependancies, tags: ['python']}
     - {role: galaxy_conf, tags: ['galaxy_conf']}
     - {role: galaxy_reporting_conf, tags: ['galaxy_reproting_conf']}
-    - {role: galaxy_tools, tags: ['galaxy_tools']}
+#    - {role: galaxy_tools, tags: ['galaxy_tools']}
+    - {role: phylogeny_tools, tags: ['phylo_tools']}
     - {role: cleanup, tags: ['clean']}
