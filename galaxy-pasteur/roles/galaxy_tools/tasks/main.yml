@@ -1,4 +1,17 @@
 ---
+- name: Create projets/fqCleaner directory if doesn't exist
+  become: yes
+  become_user: galaxypa
+  file: path=~/projets/fqCleaner state=directory mode=0755
+
+- name: copy contaminants files for fqcleaner
+  become: yes
+  become_user: galaxypa
+  copy: src={{ item }} dest=~/projets/fqCleaner/{{ item }}
+  with_items:
+    - alienTrimmerPF8contaminants.fasta
+    - Liste_primers_adaptors_illumina_March14.fasta
+
 - name: copy the script to build the tool list
   become: yes
   become_user: galaxypa
