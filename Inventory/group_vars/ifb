@@ -4,6 +4,5 @@ user_postgres: galaxy
 url_galaxy_ref: https://galaxyapi.web.pasteur.fr
 url_galaxy_target: http://127.0.0.1:18084
 url_toolshed: https://galaxy.web.pasteur.fr/toolshed-pasteur/
-ref_apikey: 147f43a5d67c08db41a196bd763b484f 
 target_apikey: 0a222ed868996c56bf840e5f0a227gaa
 galaxy_servername: galaxy-ci.web.pasteur.fr

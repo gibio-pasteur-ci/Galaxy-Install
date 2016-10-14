@@ -472,16 +472,29 @@ def run_data_managers(options):
     log.info("Total run time: {0}".format(dt.datetime.now() - istart))
 
 
-def install_repository_revision(tool, tsc):
+def install_repository_revision(tool, tsc, gi):
     """
     Installs single tool
     """
-    response = tsc.install_repository_revision(
+    dict_tools = {}
+    tools = gi.tools.get_tools()
+    for tl in tools:
+        if tl['panel_section_name'] not in dict_tools:
+            dict_tools[tl['panel_section_name']] = tl['panel_section_id']
+    if tool['tool_panel_section_label'] in dict_tools:
+        tool['tool_panel_section_id'] = dict_tools[tool['tool_panel_section_label']]
+        response = tsc.install_repository_revision(
         tool['tool_shed_url'], tool['name'], tool['owner'],
-        tool['revision'], tool['install_tool_dependencies'],
-        tool['install_repository_dependencies'],
-        tool['tool_panel_section_id'],
-        tool['tool_panel_section_label'])
+        tool['revision'], install_tool_dependencies=tool['install_tool_dependencies'],
+        install_repository_dependencies=tool['install_repository_dependencies'],
+        tool_panel_section_id=tool['tool_panel_section_id'])
+    else:
+        tool['new_tool_panel_section_label'] = tool['tool_panel_section_label']
+        response = tsc.install_repository_revision(
+        tool['tool_shed_url'], tool['name'], tool['owner'],
+        tool['revision'], install_tool_dependencies=tool['install_tool_dependencies'],
+        install_repository_dependencies=tool['install_repository_dependencies'],
+        new_tool_panel_section_label=tool['new_tool_panel_section_label'])
     if isinstance(response, dict) and response.get('status', None) == 'ok':
         # This rare case happens if a tool is already installed but
         # was not recognised as such in the above check. In such a
@@ -609,7 +622,7 @@ def install_tools(options):
                        tool['tool_panel_section_id'] or tool['tool_panel_section_label'],
                        tool['revision'], dt.datetime.now() - istart))
             try:
-                response = install_repository_revision(tool, tsc)
+                response = install_repository_revision(tool, tsc, gi)
                 end = dt.datetime.now()
                 log_tool_install_success(tool=tool, start=start, end=end,
                                          installed_tools=installed_tools)
